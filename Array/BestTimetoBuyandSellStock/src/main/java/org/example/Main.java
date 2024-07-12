@@ -11,26 +11,17 @@ import java.util.Map;
 
 public class Main {
     public static int maxProfit(int[] prices) {
-        Map<Integer, Integer> map = new HashMap<>();
-        int min = prices[0], max = -1;
-        map.put(min, 0);
-        map.put(max, -1);
-        for (int i = 0; i < prices.length; i++) {
-            if (min > prices[i]) {
-                map.remove(min);
-                min = prices[i];
-                map.put(min, i);
-            }
-            if (max < min) {
-                map.remove(max);
-                max = prices[i];
-                map.put(max, i);
+        int buyPrice = prices[0], profit = 0;
+
+        for (int price : prices) {
+            if (buyPrice > price)
+                buyPrice = price;
+            else {
+                int currentProfit = price - buyPrice;
+                profit = Math.max(currentProfit, profit);
             }
         }
-        if (map.get(min) < map.get(max))
-            return max - min;
-        else
-            return 0;
+        return profit;
     }
 
     public static void main(String[] args) {
